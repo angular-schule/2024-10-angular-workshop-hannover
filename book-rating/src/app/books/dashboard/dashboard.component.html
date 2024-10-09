@@ -1,0 +1,14 @@
+<app-book
+  *ngFor="let b of books"
+  (rateUp)="doRateUp($event)"
+  (rateDown)="doRateDown($event)"
+  [book]="b"></app-book>
+
+<div *ngIf="books.length === 0">
+  Keine Bücher vorhanden
+</div>
+
+
+<p>
+  <strong>Anzahl Bücher:</strong> {{ books.length }}
+</p>
