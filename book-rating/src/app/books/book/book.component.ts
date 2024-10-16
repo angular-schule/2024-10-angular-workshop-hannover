@@ -1,5 +1,5 @@
 import { CurrencyPipe, NgIf } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, input, Input, Output } from '@angular/core';
 
 import { Book } from '../shared/book';
 
@@ -12,16 +12,16 @@ import { Book } from '../shared/book';
 })
 export class BookComponent {
 
-  @Input() book?: Book;
+  book = input<Book>();
 
   @Output() rateUp = new EventEmitter<Book>();
   @Output() rateDown = new EventEmitter<Book>();
 
   doRateUp() {
-    this.rateUp.emit(this.book);
+    // this.rateUp.emit(this.book);
   }
 
   doRateDown() {
-    this.rateDown.emit(this.book);
+    // this.rateDown.emit(this.book);
   }
 }
