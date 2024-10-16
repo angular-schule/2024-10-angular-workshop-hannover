@@ -3,11 +3,11 @@
     (rateUp)="doRateUp($event)"
     (rateDown)="doRateDown($event)"
     [book]="book" />
+} @empty {
+  <p>Keine Bücher vorhanden</p>
 }
 
-<div *ngIf="books.length === 0">
-  Keine Bücher vorhanden
-</div>
+
 
 
 <p>
