@@ -1,19 +1,19 @@
-@if (book(); as book) {
-  <div class="card mb-4">
-    <div class="card-body bg-light">
-      <img class="img-thumbnail float-end"
-        src="//api.angular.schule/avatar/{{ book.rating }}">
-      <div class="card-title">
-        <h2>
-          {{ book.title }}
-          <span class="badge bg-secondary me-2">{{ book.rating }}</span>
-        </h2>
-      </div>
-      <p>{{ book.description }}</p>
-      <p>Preis: {{ book.price | currency:'EUR' }}</p>
+@let b = book();
 
-      <button [disabled]="book.rating <= 1" class="btn btn-primary me-2" (click)="doRateDown()">-1</button>
-      <button [disabled]="book.rating >= 5" class="btn btn-primary"      (click)="doRateUp()">+1</button>
+<div class="card mb-4">
+  <div class="card-body bg-light">
+    <img class="img-thumbnail float-end"
+      src="//api.angular.schule/avatar/{{ b.rating }}">
+    <div class="card-title">
+      <h2>
+        {{ b.title }}
+        <span class="badge bg-secondary me-2">{{ b.rating }}</span>
+      </h2>
     </div>
+    <p>{{ b.description }}</p>
+    <p>Preis: {{ preisBrutto() | currency:'EUR' }}</p>
+
+    <button [disabled]="b.rating <= 1" class="btn btn-primary me-2" (click)="doRateDown()">-1</button>
+    <button [disabled]="b.rating >= 5" class="btn btn-primary"      (click)="doRateUp()">+1</button>
   </div>
-}
+</div>

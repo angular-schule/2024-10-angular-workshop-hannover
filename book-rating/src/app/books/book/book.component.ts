@@ -1,27 +1,31 @@
-import { CurrencyPipe, NgIf } from '@angular/common';
-import { Component, EventEmitter, input, Input, Output } from '@angular/core';
+import { CurrencyPipe } from '@angular/common';
+import { ChangeDetectionStrategy, Component, computed, input, output } from '@angular/core';
 
 import { Book } from '../shared/book';
 
 @Component({
-    selector: 'app-book',
-    standalone: true,
-    templateUrl: './book.component.html',
-    styleUrl: './book.component.scss',
-    imports: [NgIf, CurrencyPipe]
+  selector: 'app-book',
+  standalone: true,
+  templateUrl: './book.component.html',
+  styleUrl: './book.component.scss',
+  imports: [CurrencyPipe],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BookComponent {
 
-  book = input<Book>();
+  book = input.required<Book>();
+  mwst = input(1.19);
 
-  @Output() rateUp = new EventEmitter<Book>();
-  @Output() rateDown = new EventEmitter<Book>();
+  preisBrutto = computed(() => this.book().price * this.mwst());
+
+  rateUp = output<Book>();
+  rateDown = output<Book>();
 
   doRateUp() {
-    // this.rateUp.emit(this.book);
+    this.rateUp.emit(this.book());
   }
 
   doRateDown() {
-    // this.rateDown.emit(this.book);
+    this.rateDown.emit(this.book());
   }
 }
