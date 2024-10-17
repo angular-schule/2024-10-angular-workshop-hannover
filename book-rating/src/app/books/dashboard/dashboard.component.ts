@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 
 import { BookComponent } from '../book/book.component';
 import { Book } from '../shared/book';
@@ -14,10 +14,13 @@ import { BookRatingService } from '../shared/book-rating.service';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent {
-  books: Book[] = [];
 
-  constructor(private rs: BookRatingService) {
-    this.books = [
+  books = signal<Book[]>([]);
+  rs = inject(BookRatingService);
+
+  constructor() {
+
+    this.books.set([
       {
         isbn: '123',
         title: 'Angular',
@@ -32,9 +35,9 @@ export class DashboardComponent {
         price: 32.9,
         rating: 3
       }
-    ];
+    ]);
 
-    setTimeout(() => this.books = [], 3000)
+    setTimeout(() => this.books.set([]), 3000)
   }
 
   doRateUp(book: Book) {
@@ -48,8 +51,8 @@ export class DashboardComponent {
   }
 
   updateAndSortList(ratedBook: Book) {
-    this.books = this.books
-      .map(b => b.isbn === ratedBook.isbn ? ratedBook : b)
-      .sort((a, b) => b.rating - a.rating);
+    // this.books = this.books
+    //   .map(b => b.isbn === ratedBook.isbn ? ratedBook : b)
+    //   .sort((a, b) => b.rating - a.rating);
   }
 }

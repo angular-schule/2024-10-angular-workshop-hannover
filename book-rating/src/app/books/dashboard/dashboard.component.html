@@ -1,4 +1,4 @@
-@for (book of books; track book) {
+@for (book of books(); track book) {
   <app-book
     (rateUp)="doRateUp($event)"
     (rateDown)="doRateDown($event)"
@@ -9,5 +9,5 @@
 
 
 <p>
-  <strong>Anzahl Bücher:</strong> {{ books.length }}
+  <strong>Anzahl Bücher:</strong> {{ books().length }}
 </p>
