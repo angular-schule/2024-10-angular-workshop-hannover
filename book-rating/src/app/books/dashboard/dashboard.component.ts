@@ -1,5 +1,5 @@
 import { NgFor, NgIf } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { BookComponent } from '../book/book.component';
 import { Book } from '../shared/book';
@@ -10,7 +10,8 @@ import { BookRatingService } from '../shared/book-rating.service';
     standalone: true,
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.scss',
-    imports: [NgFor, BookComponent, NgIf]
+    imports: [NgFor, BookComponent, NgIf],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent {
   books: Book[] = [];
@@ -32,6 +33,8 @@ export class DashboardComponent {
         rating: 3
       }
     ];
+
+    setTimeout(() => this.books = [], 3000)
   }
 
   doRateUp(book: Book) {
