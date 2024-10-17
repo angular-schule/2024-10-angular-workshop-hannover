@@ -7,7 +7,13 @@
   Keine Bücher vorhanden
 }
 
+<button (click)="zeigeEinBuchAn()">Zeige 0. Buch an</button>
 
 <p>
   <strong>Anzahl Bücher:</strong> {{ books().length }}
 </p>
+
+
+<ng-container *ngIf="books$ | async as books">
+  <button (click)="zeigeEinBuchAnFrueher(books)">Zeige 0. Buch an</button>
+</ng-container>

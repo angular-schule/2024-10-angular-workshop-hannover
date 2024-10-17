@@ -1,43 +1,37 @@
-import { NgFor, NgIf } from '@angular/common';
+import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 
 import { BookComponent } from '../book/book.component';
 import { Book } from '../shared/book';
 import { BookRatingService } from '../shared/book-rating.service';
+import { BookStoreService } from '../shared/book-store.service';
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.scss',
-    imports: [NgFor, BookComponent, NgIf],
+    imports: [NgFor, BookComponent, NgIf, AsyncPipe],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent {
 
   books = signal<Book[]>([]);
   rs = inject(BookRatingService);
+  bs = inject(BookStoreService);
+
+  books$ = this.bs.getAllBooks();
 
   constructor() {
+    this.bs.getAllBooks().subscribe(books => this.books.set(books))
+  }
 
-    this.books.set([
-      {
-        isbn: '123',
-        title: 'Angular',
-        description: 'Grundlagen und mehr',
-        price: 36.9,
-        rating: 5
-      },
-      {
-        isbn: '456',
-        title: 'Vue.js',
-        description: 'Das grüne Framework',
-        price: 32.9,
-        rating: 3
-      }
-    ]);
+  zeigeEinBuchAn() {
+    alert(this.books()[0]?.title);
+  }
 
-    setTimeout(() => this.books.set([]), 3000)
+  zeigeEinBuchAnFrueher(book: Book[]) {
+    alert(book[0]?.title);
   }
 
   doRateUp(book: Book) {
