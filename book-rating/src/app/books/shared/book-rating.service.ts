@@ -23,7 +23,7 @@ export class BookRatingService {
 
   rateDown(book: Book): Book {
 
-    if (book.rating <= this.maxRating) {
+    if (book.rating <= this.minRating) {
       return book;
     }
 
