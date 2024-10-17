@@ -5,6 +5,7 @@ import { BookComponent } from '../book/book.component';
 import { Book } from '../shared/book';
 import { BookRatingService } from '../shared/book-rating.service';
 import { BookStoreService } from '../shared/book-store.service';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
     selector: 'app-dashboard',
@@ -16,23 +17,21 @@ import { BookStoreService } from '../shared/book-store.service';
 })
 export class DashboardComponent {
 
-  books = signal<Book[]>([]);
+  // books = signal<Book[]>([]);
   rs = inject(BookRatingService);
   bs = inject(BookStoreService);
 
-  books$ = this.bs.getAllBooks();
+  books = toSignal(this.bs.getAllBooks(), { initialValue: [] });
 
+  
   constructor() {
-    this.bs.getAllBooks().subscribe(books => this.books.set(books))
+    // this.bs.getAllBooks().subscribe(books => this.books.set(books))
   }
 
   zeigeEinBuchAn() {
     alert(this.books()[0]?.title);
   }
 
-  zeigeEinBuchAnFrueher(book: Book[]) {
-    alert(book[0]?.title);
-  }
 
   doRateUp(book: Book) {
     const ratedBook = this.rs.rateUp(book);
