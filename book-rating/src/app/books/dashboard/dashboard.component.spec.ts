@@ -3,25 +3,37 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Book } from '../shared/book';
 import { BookRatingService } from '../shared/book-rating.service';
 import { DashboardComponent } from './dashboard.component';
+import { BookStoreService } from '../shared/book-store.service';
+import { of } from 'rxjs';
 
-describe('DashboardComponent', () => {
+fdescribe('DashboardComponent', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
 
   beforeEach(async () => {
 
+    // 1. Strategie -- alle Abhängigkeiten durch etwas ersetzen, das ich erzeugt habe
     const bookRatingMock = {
       rateUp: (book: Book) => book
     };
 
+    const bookStoreMock = {
+      getAllBooks: () => of([])
+    };
+
     await TestBed.configureTestingModule({
-    imports: [DashboardComponent],
-    providers: [{
+      imports: [DashboardComponent],
+      providers: [{
         provide: BookRatingService,
         useValue: bookRatingMock
-    }]
-})
-    .compileComponents();
+      },
+      {
+        provide: BookStoreService,
+        useValue: bookStoreMock
+      }
+      ]
+    })
+      .compileComponents();
 
     fixture = TestBed.createComponent(DashboardComponent);
     component = fixture.componentInstance;
