@@ -1,0 +1,22 @@
+@if (targetPosition(); as position) {
+  <div class="float-end">
+    <strong>X =</strong> {{ position.x }}<br>
+    <strong>Y =</strong> {{ position.y }}<br>
+  </div>
+
+  <div id="target" #target
+    [style.top.px]="position.y"
+    [style.left.px]="position.x"></div>
+}
+
+<div style="margin-top: 150px">
+  <strong>Nutze RxJS, um die rote Box mit Drag-and-drop zu bewegen.</strong>
+
+  <ul class="mt-3">
+    <li>Die Methode <code>setTargetPosition(e: MouseEvent)</code> ändert die Position der Box.</li>
+    <li>Nutze die Observables <code>mouseMove$</code>, <code>mouseDown$</code> und <code>mouseUp$</code> in einer geeigneten Kombination.</li>
+    <li>Beginne damit, dass die Box am Mauszeiger klebt.</li>
+    <li>Sorge dann dafür, dass dieser Prozess erst beim Klick (<code>mouseDown$</code>) beginnt.</li>
+    <li>Beende den Prozess, sobald <code>mouseUp$</code> feuert.</li>
+  </ul>
+</div>

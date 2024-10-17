@@ -1,0 +1,9 @@
+<rxw-navbar></rxw-navbar>
+
+<div class="container mb-3">
+  <router-outlet></router-outlet>
+
+  @if (!isLandingPage()) {
+    <a class="btn btn-sm btn-success mt-4" routerLink="../">← Zurück</a>
+  }
+</div>

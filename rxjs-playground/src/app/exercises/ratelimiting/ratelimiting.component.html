@@ -1,0 +1,26 @@
+<button class="btn btn-danger me-2" (click)="events$.next('1')">1</button>
+<button class="btn btn-danger me-2" (click)="events$.next('2')">2</button>
+<button class="btn btn-danger me-2" (click)="events$.next('3')">3</button>
+<button class="btn btn-success me-2" (click)="emitRandomString()">Random</button>
+
+
+<div class="row">
+  <div class="col">
+    <div class="scrollbox" (scroll)="emitScrollEvent($event)">
+      <div class="message">&darr; SCROLL ME &darr;</div>
+      @for (x of scrollContent; track $index) {
+        <div class="bar"></div>
+      }
+      <div class="message">&uarr; SCROLL ME &uarr;</div>
+    </div>
+  </div>
+
+  <div class="col">
+    <rxw-history [logStream]="result$" class="mt-3 mb-3"></rxw-history>
+  </div>
+</div>
+
+<p>
+  Durch Scrollen und Buttonklicks werden Events erzeugt.<br>
+  <strong>Begrenze die Menge der ausgegebenen Events mit verschiedenen Rate-Limiting-Operatoren.</strong>
+</p>
