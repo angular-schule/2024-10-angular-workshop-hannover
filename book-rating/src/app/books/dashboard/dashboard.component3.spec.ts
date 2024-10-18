@@ -7,7 +7,7 @@ import { Book } from '../shared/book';
 import { BookStoreService } from '../shared/book-store.service';
 import { DashboardComponent } from './dashboard.component';
 
-fdescribe('DashboardComponent - SpyOn', () => {
+describe('DashboardComponent - SpyOn', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
 
