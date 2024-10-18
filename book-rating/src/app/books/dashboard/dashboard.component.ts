@@ -1,4 +1,3 @@
-import { AsyncPipe, NgFor, NgIf } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
 
 import { BookComponent } from '../book/book.component';
@@ -12,7 +11,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
     standalone: true,
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.scss',
-    imports: [NgFor, BookComponent, NgIf, AsyncPipe],
+    imports: [BookComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent {
@@ -23,7 +22,7 @@ export class DashboardComponent {
 
   books = toSignal(this.bs.getAllBooks(), { initialValue: [] });
 
-  
+
   constructor() {
     // this.bs.getAllBooks().subscribe(books => this.books.set(books))
   }

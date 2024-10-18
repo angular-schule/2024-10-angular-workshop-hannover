@@ -5,7 +5,6 @@ import { BookRatingService } from '../shared/book-rating.service';
 import { DashboardComponent } from './dashboard.component';
 import { BookStoreService } from '../shared/book-store.service';
 import { of } from 'rxjs';
-import { RouterTestingModule } from '@angular/router/testing';
 
 describe('DashboardComponent', () => {
   let component: DashboardComponent;

@@ -1,15 +1,10 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-
-import { Book } from '../shared/book';
-import { BookRatingService } from '../shared/book-rating.service';
-import { DashboardComponent } from './dashboard.component';
-import { BookStoreService } from '../shared/book-store.service';
-import { of } from 'rxjs';
-import { RouterTestingModule } from '@angular/router/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-fdescribe('DashboardComponent HttpMock', () => {
+import { DashboardComponent } from './dashboard.component';
+
+describe('DashboardComponent HttpMock', () => {
   let component: DashboardComponent;
   let fixture: ComponentFixture<DashboardComponent>;
 
