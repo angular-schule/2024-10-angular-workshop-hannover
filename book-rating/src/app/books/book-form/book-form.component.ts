@@ -15,11 +15,6 @@ export class BookFormComponent {
   create = output<Book>();
   edit = output<Book>();
 
-  // createOrEdit = output<{
-  //   type: 'edit' | 'create',
-  //   book: Book
-  // }>()
-
   currentBook = input<Book | undefined>();
 
   updateForm = effect(() => {
