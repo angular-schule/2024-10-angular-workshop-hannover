@@ -16,15 +16,14 @@ import { toSignal } from '@angular/core/rxjs-interop';
 })
 export class DashboardComponent {
 
-  // books = signal<Book[]>([]);
   rs = inject(BookRatingService);
   bs = inject(BookStoreService);
 
-  books = toSignal(this.bs.getAllBooks(), { initialValue: [] });
-
+  //books = toSignal(this.bs.getAllBooks(), { initialValue: [] });
+  books = signal<Book[]>([]);
 
   constructor() {
-    // this.bs.getAllBooks().subscribe(books => this.books.set(books))
+    this.bs.getAllBooks().subscribe(books => this.books.set(books))
   }
 
   zeigeEinBuchAn() {
@@ -43,8 +42,22 @@ export class DashboardComponent {
   }
 
   updateAndSortList(ratedBook: Book) {
-    // this.books = this.books
-    //   .map(b => b.isbn === ratedBook.isbn ? ratedBook : b)
-    //   .sort((a, b) => b.rating - a.rating);
+
+    /*
+    const updatedBooks = this.books()
+      .map(b => b.isbn === ratedBook.isbn ? ratedBook : b)
+      .sort((a, b) => b.rating - a.rating);
+
+    this.books.set(updatedBooks);
+    */
+
+    // ODER update
+
+    this.books.update(books => books
+      .map(b => b.isbn === ratedBook.isbn ? ratedBook : b)
+      .sort((a, b) => b.rating - a.rating));
+
+    // TODO: Buch zum Server senden (Hausaufgabe)
+
   }
 }
