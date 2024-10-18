@@ -13,6 +13,7 @@
     <p>{{ b.description }}</p>
     <p>Preis: {{ preisBrutto() | currency:'EUR' }}</p>
 
+    <!-- Vorsicht, durch die Prüfung hier ist die BookComponent nicht mehr "dumm" -->
     <button [disabled]="b.rating <= 1" class="btn btn-primary me-2" (click)="doRateDown()">-1</button>
     <button [disabled]="b.rating >= 5" class="btn btn-primary"      (click)="doRateUp()">+1</button>
   </div>

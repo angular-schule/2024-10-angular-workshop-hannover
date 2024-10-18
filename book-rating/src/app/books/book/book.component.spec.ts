@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BookComponent } from './book.component';
+import { Book } from '../shared/book';
+import { signal } from '@angular/core';
 
 describe('BookComponent', () => {
   let component: BookComponent;
@@ -14,6 +16,12 @@ describe('BookComponent', () => {
 
     fixture = TestBed.createComponent(BookComponent);
     component = fixture.componentInstance;
+
+    // alter Stil (wenn Decorator)
+    // component.book = {} as Book;
+    // component.book = signal({} as Book)  // geht auch nicht
+    fixture.componentRef.setInput('book', {} as Book);
+
     fixture.detectChanges();
   });
 
