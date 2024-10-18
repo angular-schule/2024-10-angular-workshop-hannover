@@ -1,4 +1,4 @@
-import { Component, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input, output, effect } from '@angular/core';
 import { Book } from '../shared/book';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -7,11 +7,34 @@ import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angula
   standalone: true,
   imports: [ReactiveFormsModule],
   templateUrl: './book-form.component.html',
-  styleUrl: './book-form.component.scss'
+  styleUrl: './book-form.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BookFormComponent {
 
   create = output<Book>();
+  edit = output<Book>();
+
+  // createOrEdit = output<{
+  //   type: 'edit' | 'create',
+  //   book: Book
+  // }>()
+
+  currentBook = input<Book | undefined>();
+
+  updateForm = effect(() => {
+    // console.log('Current Book', this.currentBook());
+    const currentBook = this.currentBook();
+    const isbnControl = this.bookForm.controls.isbn;
+
+    if (currentBook) {
+      this.bookForm.patchValue(currentBook);
+      isbnControl.disable();
+    } else {
+      isbnControl.enable();
+    }
+  });
+
 
   bookForm = new FormGroup({
 
@@ -30,21 +53,33 @@ export class BookFormComponent {
     })
   });
 
-  c = this.bookForm.controls;
-
   isInvalid(control: FormControl): boolean {
     return control.invalid && control.touched
   }
 
   submitForm() {
 
-    const newBook: Book = {
-      ...this.bookForm.getRawValue(),
-      rating: 1,
-      price: 1
-    }
+    const currentBook = this.currentBook();
+    if (currentBook) {
 
-    this.create.emit(newBook);
+      const { rating, price } = currentBook;
+      const changedBook: Book = {
+        ...this.bookForm.getRawValue(),
+        rating,
+        price
+      }
+      this.edit.emit(changedBook);
+
+    } else {
+
+      const newBook: Book = {
+        ...this.bookForm.getRawValue(),
+        rating: 1,
+        price: 1
+      }
+      this.create.emit(newBook);
+
+    }
     this.bookForm.reset();
   }
 }

@@ -1,3 +1,5 @@
+@let c = bookForm.controls;
+
 <form [formGroup]="bookForm" (ngSubmit)="submitForm()">
 
   <div class="form-group">
@@ -18,6 +20,14 @@
     <textarea [formControl]="c.description" class="form-control" id="description"></textarea>
   </div>
 
-  <button [disabled]="bookForm.invalid" type="submit" class="btn btn-primary mb-4">Erstellen</button>
+  <button [disabled]="bookForm.invalid" type="submit" class="btn btn-primary mb-4">
+
+    @if (currentBook()) {
+      Editieren
+    } @else {
+      Erstellen
+    }
+
+  </button>
 
 </form>

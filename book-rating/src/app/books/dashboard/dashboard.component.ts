@@ -23,6 +23,8 @@ export class DashboardComponent {
   //books = toSignal(this.bs.getAllBooks(), { initialValue: [] });
   books = signal<Book[]>([]);
 
+  currentBook = signal<Book | undefined>(undefined);
+
   constructor() {
     this.bs.getAllBooks().subscribe(books => this.books.set(books))
   }
@@ -30,7 +32,6 @@ export class DashboardComponent {
   zeigeEinBuchAn() {
     alert(this.books()[0]?.title);
   }
-
 
   doRateUp(book: Book) {
     const ratedBook = this.rs.rateUp(book);
@@ -42,23 +43,24 @@ export class DashboardComponent {
     this.updateAndSortList(ratedBook);
   }
 
-  updateAndSortList(ratedBook: Book) {
-
-    /*
-    const updatedBooks = this.books()
-      .map(b => b.isbn === ratedBook.isbn ? ratedBook : b)
-      .sort((a, b) => b.rating - a.rating);
-
-    this.books.set(updatedBooks);
-    */
-
-    // ODER update
-
+  updateAndSortList(changedBook: Book) {
     this.books.update(books => books
-      .map(b => b.isbn === ratedBook.isbn ? ratedBook : b)
+      .map(b => b.isbn === changedBook.isbn ? changedBook : b)
       .sort((a, b) => b.rating - a.rating));
 
     // TODO: Buch zum Server senden (Hausaufgabe)
+  }
 
+  addBook(book: Book) {
+    this.books.update(books => [...books, book]);
+  }
+
+  changeToEditMode(book: Book) {
+    this.currentBook.set(book)
+  }
+
+  changeBook(changedBook: Book) {
+    this.updateAndSortList(changedBook);
+    this.currentBook.set(undefined);
   }
 }

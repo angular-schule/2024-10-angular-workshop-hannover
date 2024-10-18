@@ -1,10 +1,17 @@
-<app-book-form />
+<app-book-form
+  (create)="addBook($event)"
+  (edit)="changeBook($event)"
+  [currentBook]="currentBook()"
+/>
 
 @for (book of books(); track book) {
   <app-book
     (rateUp)="doRateUp($event)"
     (rateDown)="doRateDown($event)"
-    [book]="book" />
+    [book]="book"
+    (edit)="changeToEditMode($event)"
+  />
+
 } @empty {
   Keine Bücher vorhanden
 }
