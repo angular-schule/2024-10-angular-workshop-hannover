@@ -1,18 +1,34 @@
-import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { Component, NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
+import { DashboardComponent } from './books/dashboard/dashboard.component';
 
-fdescribe('AppComponent', () => {
+
+@Component({
+  selector: 'app-dashboard',
+  standalone: true,
+  template: '<h1>Dashboard</h1>',
+})
+export class DummyDashboardComponent { }
+
+describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [
         // RouterTestingModule, // provideLocationMocks
         AppComponent
       ]
-    }).overrideComponent(AppComponent, {
-      set: { imports: [], schemas: [NO_ERRORS_SCHEMA] }
-    }).compileComponents();
+    })
+    // .overrideComponent(AppComponent, {
+    //   set: { imports: [], schemas: [NO_ERRORS_SCHEMA] }
+    // })
+    // Shallow Component Test
+    .overrideComponent(AppComponent, {
+      remove: { imports: [DashboardComponent] },
+      add: { imports: [DummyDashboardComponent] }
+    })
+    .compileComponents();
   });
 
   it('should create the app', () => {
@@ -29,6 +45,7 @@ fdescribe('AppComponent', () => {
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
+    debugger;
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
     expect(compiled.querySelector('h1')?.textContent).toContain('Book Rating');
