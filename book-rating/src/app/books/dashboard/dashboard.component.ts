@@ -5,13 +5,14 @@ import { Book } from '../shared/book';
 import { BookRatingService } from '../shared/book-rating.service';
 import { BookStoreService } from '../shared/book-store.service';
 import { toSignal } from '@angular/core/rxjs-interop';
+import { BookFormComponent } from '../book-form/book-form.component';
 
 @Component({
     selector: 'app-dashboard',
     standalone: true,
     templateUrl: './dashboard.component.html',
     styleUrl: './dashboard.component.scss',
-    imports: [BookComponent],
+    imports: [BookComponent, BookFormComponent],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent {
