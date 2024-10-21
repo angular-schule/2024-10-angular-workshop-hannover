@@ -4,7 +4,7 @@
   [currentBook]="currentBook()"
 />
 
-@for (book of books(); track book) {
+@for (book of books(); track book.isbn) {
   <app-book
     (rateUp)="doRateUp($event)"
     (rateDown)="doRateDown($event)"
