@@ -16,6 +16,7 @@ export class AppComponent {
 
 
   constructor(store: Store) {
-    store.dispatch(BookActions.loadBooks())
+    store.dispatch(BookActions.loadBooks());
+    // store.dispatch(BookActions.loadBooks());
   }
 }
