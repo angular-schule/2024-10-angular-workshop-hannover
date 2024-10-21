@@ -6,6 +6,7 @@ import { BookRatingService } from '../shared/book-rating.service';
 import { BookStoreService } from '../shared/book-store.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BookFormComponent } from '../book-form/book-form.component';
+import { switchMap } from 'rxjs';
 
 @Component({
     selector: 'app-dashboard',
@@ -62,5 +63,10 @@ export class DashboardComponent {
   changeBook(changedBook: Book) {
     this.updateAndSortList(changedBook);
     this.currentBook.set(undefined);
+
+
+    this.bs.updateBook(changedBook).pipe(
+      switchMap(_ => this.bs.getAllBooks()),
+    ).subscribe(books => this.books.set(books));
   }
 }
