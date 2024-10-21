@@ -7,6 +7,8 @@ import { BookStoreService } from '../shared/book-store.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { BookFormComponent } from '../book-form/book-form.component';
 import { switchMap } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { selectBooks, selectBooksLoading } from '../store/book.selectors';
 
 @Component({
     selector: 'app-dashboard',
@@ -18,55 +20,60 @@ import { switchMap } from 'rxjs';
 })
 export class DashboardComponent {
 
-  rs = inject(BookRatingService);
-  bs = inject(BookStoreService);
+  // rs = inject(BookRatingService);
+  // bs = inject(BookStoreService);
+  store = inject(Store);
 
-  //books = toSignal(this.bs.getAllBooks(), { initialValue: [] });
-  books = signal<Book[]>([]);
-
+  // books = toSignal(this.bs.getAllBooks(), { initialValue: [] });
+  // books = signal<Book[]>([]);
   currentBook = signal<Book | undefined>(undefined);
 
+
+  books = this.store.selectSignal(selectBooks);
+  loading = this.store.selectSignal(selectBooksLoading);
+
+
   constructor() {
-    this.bs.getAllBooks().subscribe(books => this.books.set(books))
+    // this.bs.getAllBooks().subscribe(books => this.books.set(books))
   }
 
   zeigeEinBuchAn() {
-    alert(this.books()[0]?.title);
+    // alert(this.books()[0]?.title);
   }
 
   doRateUp(book: Book) {
-    const ratedBook = this.rs.rateUp(book);
-    this.updateAndSortList(ratedBook);
+    // const ratedBook = this.rs.rateUp(book);
+    // this.updateAndSortList(ratedBook);
   }
 
   doRateDown(book: Book) {
-    const ratedBook = this.rs.rateDown(book);
-    this.updateAndSortList(ratedBook);
+    // const ratedBook = this.rs.rateDown(book);
+    // this.updateAndSortList(ratedBook);
   }
 
   updateAndSortList(changedBook: Book) {
-    this.books.update(books => books
-      .map(b => b.isbn === changedBook.isbn ? changedBook : b)
-      .sort((a, b) => b.rating - a.rating));
+    // this.books.update(books => books
+    //   .map(b => b.isbn === changedBook.isbn ? changedBook : b)
+    //   .sort((a, b) => b.rating - a.rating));
 
     // TODO: Buch zum Server senden (Hausaufgabe)
   }
 
   addBook(book: Book) {
-    this.books.update(books => [...books, book]);
+    // this.books.update(books => [...books, book]);
   }
 
   changeToEditMode(book: Book) {
-    this.currentBook.set(book)
+    // this.currentBook.set(book)
   }
 
   changeBook(changedBook: Book) {
-    this.updateAndSortList(changedBook);
-    this.currentBook.set(undefined);
+    // this.updateAndSortList(changedBook);
+    // this.currentBook.set(undefined);
 
 
-    this.bs.updateBook(changedBook).pipe(
-      switchMap(_ => this.bs.getAllBooks()),
-    ).subscribe(books => this.books.set(books));
+    // this.bs.updateBook(changedBook).pipe(
+    //   switchMap(_ => this.bs.getAllBooks()),
+    // ).subscribe(books => this.books.set(books));
   }
 }

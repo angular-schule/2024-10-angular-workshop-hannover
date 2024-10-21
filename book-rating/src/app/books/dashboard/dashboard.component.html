@@ -16,6 +16,10 @@
   Keine Bücher vorhanden
 }
 
+@if (loading()) {
+  <h3>Lade Bücher..</h3>
+}
+
 <button (click)="zeigeEinBuchAn()">Zeige 0. Buch an</button>
 
 <p>

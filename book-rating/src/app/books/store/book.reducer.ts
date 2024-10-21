@@ -11,14 +11,29 @@ export interface State {
 
 export const initialState: State = {
   books: [],
-  loading: false
+  loading: false,
+  // currentBook
 };
 
 export const reducer = createReducer(
   initialState,
-  on(BookActions.loadBooks, state => state),
-  on(BookActions.loadBooksSuccess, (state, action) => state),
-  on(BookActions.loadBooksFailure, (state, action) => state),
+
+  on(BookActions.loadBooks, state => ({
+    ...state,
+    loading: true
+  })),
+
+  on(BookActions.loadBooksSuccess, (state, { books }) => ({
+    ... state,
+    loading: false,
+    books
+  })),
+
+  on(BookActions.loadBooksFailure, state => ({
+    ...state,
+    loading: false,
+    books: []
+  }))
 );
 
 export const bookFeature = createFeature({

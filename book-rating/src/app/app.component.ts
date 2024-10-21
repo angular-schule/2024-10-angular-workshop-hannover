@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { DashboardComponent } from './books/dashboard/dashboard.component';
 import { RouterOutlet } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { BookActions } from './books/store/book.actions';
 
 @Component({
     selector: 'app-root',
@@ -11,4 +13,9 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'Book Rating';
+
+
+  constructor(store: Store) {
+    store.dispatch(BookActions.loadBooks())
+  }
 }
