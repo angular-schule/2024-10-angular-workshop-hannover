@@ -3,6 +3,8 @@ import { provideMockActions } from '@ngrx/effects/testing';
 import { Observable } from 'rxjs';
 
 import { BookEffects } from './book.effects';
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 
 describe('BookEffects', () => {
   let actions$: Observable<any>;
@@ -12,7 +14,10 @@ describe('BookEffects', () => {
     TestBed.configureTestingModule({
       providers: [
         BookEffects,
-        provideMockActions(() => actions$)
+        provideMockActions(() => actions$),
+
+        provideHttpClient(),
+        provideHttpClientTesting()
       ]
     });
 

@@ -3,6 +3,9 @@ import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './books/dashboard/dashboard.component';
+import { Store } from '@ngrx/store';
+import { provideMockStore } from '@ngrx/store/testing';
+import { initialState } from './books/store/book.reducer';
 
 
 @Component({
@@ -18,6 +21,9 @@ describe('AppComponent', () => {
       imports: [
         // RouterTestingModule, // provideLocationMocks
         AppComponent
+      ],
+      providers: [
+        provideMockStore({ initialState })
       ]
     })
     // .overrideComponent(AppComponent, {
