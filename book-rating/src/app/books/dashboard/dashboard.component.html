@@ -1,27 +1,30 @@
 <app-book-form
-  (create)="addBook($event)"
+  (create)="bookFacade.addBook($event)"
   (edit)="changeBook($event)"
   [currentBook]="currentBook()"
 />
 
-@for (book of books(); track book.isbn) {
-  <app-book
-    (rateUp)="doRateUp($event)"
-    (rateDown)="doRateDown($event)"
+@for (book of bookFacade.books(); track book.isbn) {
+  <!-- <app-book
+    (rateUp)="bookFacade.doRateUp($event)"
+    (rateDown)="bookFacade.doRateDown($event)"
     [book]="book"
     (edit)="changeToEditMode($event)"
-  />
+  /> -->
+
+  <app-book
+    [book]="book"
+    (edit)="changeToEditMode($event)"
+/>
 
 } @empty {
   Keine Bücher vorhanden
 }
 
-@if (loading()) {
+@if (bookFacade.loading()) {
   <h3>Lade Bücher..</h3>
 }
 
-<button (click)="zeigeEinBuchAn()">Zeige 0. Buch an</button>
-
 <p>
-  <strong>Anzahl Bücher:</strong> {{ books().length }}
+  <strong>Anzahl Bücher:</strong> {{ bookFacade.books().length }}
 </p>
