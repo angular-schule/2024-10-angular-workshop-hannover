@@ -8,26 +8,22 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
   standalone: true,
   imports: [HistoryComponent]
 })
-export class UnsubscribeComponent implements OnDestroy {
+export class UnsubscribeComponent {
 
   logStream$ = new ReplaySubject<string | number>();
-  subscription: Subscription;
 
   constructor() {
     const interval$ = timer(0, 1000);
 
-    this.subscription = interval$.pipe(
+    interval$.pipe(
 
+      takeUntilDestroyed()
 
     ).subscribe({
       next: e => this.log(e),
       error: err => this.log('❌ ERROR: ' + err),
       complete: () => this.log('✅ COMPLETE')
     });
-  }
-
-  ngOnDestroy() {
-    // this.subscription.unsubscribe();
   }
 
   log(msg: string | number) {
