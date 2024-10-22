@@ -1,17 +1,13 @@
-import { Injectable } from '@angular/core';
 import { Book } from './book';
 
-@Injectable({
-  providedIn: 'root'
-})
+const minRating = 1;
+const maxRating = 5;
+
 export class BookRatingService {
 
-  readonly minRating = 1;
-  readonly maxRating = 5;
+  static rateUp(book: Book): Book {
 
-  rateUp(book: Book): Book {
-
-    if (book.rating >= this.maxRating) {
+    if (book.rating >= maxRating) {
       return book;
     }
 
@@ -21,9 +17,9 @@ export class BookRatingService {
     };
   }
 
-  rateDown(book: Book): Book {
+  static rateDown(book: Book): Book {
 
-    if (book.rating <= this.minRating) {
+    if (book.rating <= minRating) {
       return book;
     }
 

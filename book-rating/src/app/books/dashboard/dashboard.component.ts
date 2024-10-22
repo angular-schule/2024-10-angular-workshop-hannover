@@ -9,6 +9,7 @@ import { BookFormComponent } from '../book-form/book-form.component';
 import { switchMap } from 'rxjs';
 import { Store } from '@ngrx/store';
 import { selectBooks, selectBooksLoading } from '../store/book.selectors';
+import { BookActions } from '../store/book.actions';
 
 @Component({
     selector: 'app-dashboard',
@@ -42,25 +43,15 @@ export class DashboardComponent {
   }
 
   doRateUp(book: Book) {
-    // const ratedBook = this.rs.rateUp(book);
-    // this.updateAndSortList(ratedBook);
+    this.store.dispatch(BookActions.rateUp({ book }));
   }
 
   doRateDown(book: Book) {
-    // const ratedBook = this.rs.rateDown(book);
-    // this.updateAndSortList(ratedBook);
-  }
-
-  updateAndSortList(changedBook: Book) {
-    // this.books.update(books => books
-    //   .map(b => b.isbn === changedBook.isbn ? changedBook : b)
-    //   .sort((a, b) => b.rating - a.rating));
-
-    // TODO: Buch zum Server senden (Hausaufgabe)
+    this.store.dispatch(BookActions.rateDown({ book }));
   }
 
   addBook(book: Book) {
-    // this.books.update(books => [...books, book]);
+    this.store.dispatch(BookActions.create({ book }));
   }
 
   changeToEditMode(book: Book) {
