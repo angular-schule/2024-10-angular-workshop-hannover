@@ -16,8 +16,11 @@ import { BookFacadeService } from '../store/book-facade.service';
 export class DashboardComponent {
 
   currentBook = signal<Book | undefined>(undefined);
-
   bookFacade = inject(BookFacadeService);
+
+  constructor() {
+    this.bookFacade.loadBook();
+  }
 
   changeToEditMode(book: Book) {
     // this.currentBook.set(book)

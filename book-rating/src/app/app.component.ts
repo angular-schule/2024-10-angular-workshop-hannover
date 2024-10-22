@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { DashboardComponent } from './books/dashboard/dashboard.component';
 import { RouterOutlet } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { BookActions } from './books/store/book.actions';
+
+import { DashboardComponent } from './books/dashboard/dashboard.component';
 
 @Component({
     selector: 'app-root',
@@ -13,10 +12,4 @@ import { BookActions } from './books/store/book.actions';
 })
 export class AppComponent {
   title = 'Book Rating';
-
-
-  constructor(store: Store) {
-    store.dispatch(BookActions.loadBooks());
-    // store.dispatch(BookActions.loadBooks());
-  }
 }

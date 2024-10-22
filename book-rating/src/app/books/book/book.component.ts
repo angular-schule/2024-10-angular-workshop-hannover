@@ -21,8 +21,8 @@ export class BookComponent {
 
   preisBrutto = computed(() => this.book().price * this.mwst());
 
-  rateUp = output<Book>();
-  rateDown = output<Book>();
+  // rateUp = output<Book>();
+  // rateDown = output<Book>();
   edit = output<Book>();
 
   doRateUp() {

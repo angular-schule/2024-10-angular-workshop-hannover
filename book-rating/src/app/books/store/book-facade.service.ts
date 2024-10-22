@@ -14,6 +14,10 @@ export class BookFacadeService {
   books = this.store.selectSignal(selectBooks);
   loading = this.store.selectSignal(selectBooksLoading);
 
+  loadBook() {
+    this.store.dispatch(BookActions.loadBooks());
+  }
+
   doRateUp(book: Book) {
     this.store.dispatch(BookActions.rateUp({ book }));
   }
