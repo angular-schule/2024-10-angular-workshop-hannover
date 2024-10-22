@@ -19,6 +19,10 @@ export class BookStoreService {
     return this.http.get<Book>('https://api.angular.schule/books/' + isbn /* + '/slow' */);
   }
 
+  createBook(book: Book): Observable<Book> {
+    return this.http.post<Book>('https://api.angular.schule/books', book);
+  }
+
   updateBook(book: Book): Observable<Book> {
     return this.http.put<Book>('https://api.angular.schule/books/' + book.isbn, book);
   }

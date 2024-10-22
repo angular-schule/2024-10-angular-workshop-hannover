@@ -14,3 +14,11 @@ export const selectBooks = createSelector(
   selectBookState,
   state => state.books
 );
+
+
+export function getBookByIsbn(isbn: string) {
+  return createSelector(
+    selectBooks,
+    state => state.find(b => b.isbn === isbn)
+  );
+}

@@ -10,6 +10,9 @@ export const BookActions = createActionGroup({
     'Load Books Failure': props<{ error: HttpErrorResponse }>(),
 
     'Create': props<{ book: Book }>(),
+    'Create Books Success': emptyProps(),
+    'Create Books Failure': props<{ error: HttpErrorResponse }>(),
+
     'Rate Up': props<{ book: Book }>(),
     'Rate Down': props<{ book: Book }>(),
   }
