@@ -15,5 +15,8 @@ export const BookActions = createActionGroup({
 
     'Rate Up': props<{ book: Book }>(),
     'Rate Down': props<{ book: Book }>(),
+
+    'Update Success': props<{ book: Book }>(),
+    'Update Failure': props<{ error: HttpErrorResponse }>(),
   }
 });

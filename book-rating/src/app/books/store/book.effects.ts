@@ -5,7 +5,8 @@ import { Observable, EMPTY, of } from 'rxjs';
 import { BookActions } from './book.actions';
 import { BookStoreService } from '../shared/book-store.service';
 import { Store } from '@ngrx/store';
-import { getBookByIsbn } from './book.selectors';
+import { getBookByIsbn, selectBooks } from './book.selectors';
+import { Book } from '../shared/book';
 
 
 @Injectable()
@@ -42,18 +43,46 @@ export class BookEffects {
     );
   });
 
+  // OPTION A
+  //
+  // Eine "selector factory" kann bei withLatestFrom nicht einsetzen.
+  // Statt dessen suchen wir nach dem Buch direkt im Effect.
   updateBook$ = createEffect(() => {
     return inject(Actions).pipe(
 
       ofType(BookActions.rateUp, BookActions.rateDown),
-      // TODO: wie mit Parameter!
-      withLatestFrom(this.store.select(getBookByIsbn('??'))),
-      mergeMap(([action, book]) =>
+      withLatestFrom(this.store.select(selectBooks)),
+      map(([{ book }, books]) => books.find(b => b.isbn === book.isbn)),
+      mergeMap(bookFromStore =>
 
-        this.bs.updateBook(book!).pipe(
-          map(() => BookActions.createBooksSuccess()),
+        this.bs.updateBook(bookFromStore!).pipe(
+          map(book => BookActions.updateSuccess({ book })),
           catchError(error => of(BookActions.createBooksFailure({ error }))))
       )
     );
   });
+
+
+  // OPTION B
+  //
+  // Wir setzen einen "selector factory" ein (`getBookByIsbn`) und subscriben direkt auf den Selector
+  /*
+  updateBook$ = createEffect(() => {
+    return inject(Actions).pipe(
+
+      ofType(BookActions.rateUp, BookActions.rateDown),
+      mergeMap(({ book }) =>
+        this.store.select(getBookByIsbn(book.isbn)).pipe(
+
+          mergeMap(bookFromStore =>
+
+            this.bs.updateBook(bookFromStore!).pipe(
+              map(book => BookActions.updateSuccess({ book })),
+              catchError(error => of(BookActions.updateFailure({ error }))))
+          )
+        )
+      )
+    );
+  });
+  */
 }
