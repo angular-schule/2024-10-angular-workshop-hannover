@@ -1,7 +1,8 @@
-import { Component, OnDestroy } from '@angular/core';
-import { Subject, ReplaySubject, timer, Subscription, takeWhile, takeUntil } from 'rxjs';
-import { HistoryComponent } from '../../shared/history/history.component';
+import { Component } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ReplaySubject, timer } from 'rxjs';
+
+import { HistoryComponent } from '../../shared/history/history.component';
 
 @Component({
   templateUrl: './unsubscribe.component.html',
