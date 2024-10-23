@@ -37,12 +37,12 @@ export class ChatComponent {
 
     /**************!!**************/
 
-    merge(
+    forkJoin([
       this.msg.julia$,
       this.msg.georg$,
       this.msg.john$
-    ).subscribe({
-      next: e => this.log(e),
+    ]).subscribe({
+      next: e => this.log(e.toString()),
       error: err => this.log('❌ ERROR: ' + err),
       complete: () => this.log('✅ All members left')
     });
