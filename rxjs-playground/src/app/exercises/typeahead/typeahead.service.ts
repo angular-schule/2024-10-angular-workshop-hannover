@@ -11,7 +11,7 @@ export class TypeaheadService {
 
   search(term: string): Observable<Book[]> {
     return this.http.get<Book[]>(this.apiUrl + term).pipe(
-      catchError(() => of([]))
+      // catchError(() => of([]))
     );
   }
 }
