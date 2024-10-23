@@ -3,13 +3,14 @@ import { ChangeDetectionStrategy, Component, computed, inject, input, output } f
 
 import { Book } from '../shared/book';
 import { BookFacadeService } from '../store/book-facade.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-book',
   standalone: true,
   templateUrl: './book.component.html',
   styleUrl: './book.component.scss',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, RouterLink],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BookComponent {
