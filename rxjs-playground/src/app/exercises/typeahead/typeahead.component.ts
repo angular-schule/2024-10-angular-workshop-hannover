@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { TypeaheadService } from './typeahead.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, mergeAll, switchMap, tap } from 'rxjs';
 import { Book } from './book';
 
 @Component({
@@ -36,10 +36,14 @@ export class TypeaheadComponent {
 
     searchInput$.pipe(
 
-      map(term => this.ts.search(term)),
+      debounceTime(500),
+      distinctUntilChanged(),
 
+      tap(() => this.loading.set(true)),
+      switchMap(term => this.ts.search(term)),
+      tap(() => this.loading.set(false)),
 
-    ).subscribe(results => results.subscribe(books => this.results.set(books)))
+    ).subscribe(books => this.results.set(books))
 
 
     /******************************/
