@@ -1,7 +1,7 @@
 import { Component, inject, signal } from '@angular/core';
 import { TypeaheadService } from './typeahead.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { debounceTime, distinctUntilChanged, switchMap, tap } from 'rxjs';
+import { debounceTime, distinctUntilChanged, map, switchMap, tap } from 'rxjs';
 import { Book } from './book';
 
 @Component({
@@ -36,16 +36,10 @@ export class TypeaheadComponent {
 
     searchInput$.pipe(
 
-    ).subscribe(results => this.results.set([{
-      isbn: '111',
-      title: results,
-      subtitle: '',
-      description: 'Nur Ein Test',
-      rating: 1,
-      price: 1,
-      authors: [],
-      firstThumbnailUrl: ''
-    }]))
+      map(term => this.ts.search(term)),
+
+
+    ).subscribe(results => results.subscribe(books => this.results.set(books)))
 
 
     /******************************/
