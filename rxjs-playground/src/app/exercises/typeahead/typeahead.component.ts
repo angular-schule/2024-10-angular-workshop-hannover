@@ -34,7 +34,20 @@ export class TypeaheadComponent {
 
     /******************************/
 
-    
+    searchInput$.pipe(
+
+    ).subscribe(results => this.results.set([{
+      isbn: '111',
+      title: results,
+      subtitle: '',
+      description: 'Nur Ein Test',
+      rating: 1,
+      price: 1,
+      authors: [],
+      firstThumbnailUrl: ''
+    }]))
+
+
     /******************************/
   }
 
