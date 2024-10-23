@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { EMPTY, Observable, Subject, filter, map, scan, withLatestFrom } from 'rxjs';
+import { EMPTY, Observable, Subject, filter, map, scan, tap, withLatestFrom } from 'rxjs';
 
 import { StockService } from './stock.service';
 import { AsyncPipe, DecimalPipe, CurrencyPipe, DatePipe } from '@angular/common';
@@ -44,11 +44,31 @@ export class StockComponent {
 
     /******************************/
 
-    
+    this.purchases$ = this.buyAction$.pipe(
+
+      filter(amount => amount !== 0),
+      withLatestFrom(this.goldRate$),
+      map(([feinUnzen, rate]) => ({
+        feinUnzen,
+        rate
+      })),
+      map(({ feinUnzen, rate }) => ({
+        date: Date.now(),
+        amount: feinUnzen,
+        rate,
+        total: feinUnzen * rate
+      })),
+      tap(console.log)
+    )
+
+
     /******************************/
 
 
-    this.purchasesList$ = this.purchases$.pipe(scan((acc, item) => [item, ...acc.slice(0, 9)], [] as StockPurchase[]));
+    this.purchasesList$ = this.purchases$.pipe(
+      // scan((acc, item) => [item, ...acc.slice(0, 9)], [] as StockPurchase[]));
+      scan((acc, item) => [item, ...acc], [] as StockPurchase[]));
+
   }
 
   buy() {

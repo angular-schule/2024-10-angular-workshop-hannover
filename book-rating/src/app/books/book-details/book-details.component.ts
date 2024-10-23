@@ -45,8 +45,8 @@ export class BookDetailsComponent {
   result$ = toSignal(inject(ActivatedRoute).paramMap.pipe(
     map(paramMap => paramMap.get('isbn')!),
     switchMap(isbn => forkJoin([
-      this.bs.getSingleBook(isbn),
-      this.bs.getAllBooks()
+      this.bs.getSingleBook(isbn).pipe(/* catchError */),
+      this.bs.getAllBooks().pipe(/* catchError */)
     ])),
     map(([singleBook, books]) => ({
       singleBook,
