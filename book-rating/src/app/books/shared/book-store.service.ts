@@ -26,4 +26,8 @@ export class BookStoreService {
   updateBook(book: Book): Observable<Book> {
     return this.http.put<Book>('https://api.angular.schule/books/' + book.isbn, book);
   }
+
+  searchBook(searchTerm: string): Observable<Book[]> {
+    return this.http.get<Book[]>(`https://api.angular.schule/books/search/${searchTerm}`)
+  }
 }
