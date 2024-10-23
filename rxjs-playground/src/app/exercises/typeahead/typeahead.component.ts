@@ -3,6 +3,7 @@ import { TypeaheadService } from './typeahead.service';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, distinctUntilChanged, map, mergeAll, switchMap, tap } from 'rxjs';
 import { Book } from './book';
+import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({
   templateUrl: './typeahead.component.html',
@@ -14,40 +15,18 @@ export class TypeaheadComponent {
   private ts = inject(TypeaheadService);
 
   searchControl = new FormControl('', { nonNullable: true });
-
-  results = signal<Book[]>([]);
   loading = signal(false);
 
-  constructor() {
-    const searchInput$ = this.searchControl.valueChanges;
+  searchInput$ = this.searchControl.valueChanges;
+  results = toSignal(this.searchInput$.pipe(
 
-    /**
-     * Baue eine TypeAhead-Suche, die während der Eingabe eine Suche gegen unsere Buch-API ausführt.
-     *
-     * Die Eingabewerte aus dem Formular werden durch das Observable searchInput$ bekanntgegeben.
-     * Zur Suche soll der Service `TypeaheadService` verwendet werden, er hat die Methode `this.ts.search(term: string)`.
-     * Die aktuellen Ergebnisse sollen im Signal `this.results` gespeichert werden.
-     * Der Lade-Indikator wird angezeigt, wenn das Signal `loading` den Wert `true` hat.
-     *
-     * Extra: Refaktorisiere den Code und nutze die AsyncPipe oder die Funktion `toSignal()` von Angular, um die Subscription aufzubauen.
-     */
+    debounceTime(500),
+    distinctUntilChanged(),
 
-    /******************************/
-
-    searchInput$.pipe(
-
-      debounceTime(500),
-      distinctUntilChanged(),
-
-      tap(() => this.loading.set(true)),
-      switchMap(term => this.ts.search(term)),
-      tap(() => this.loading.set(false)),
-
-    ).subscribe(books => this.results.set(books))
-
-
-    /******************************/
-  }
+    tap(() => this.loading.set(true)),
+    switchMap(term => this.ts.search(term)),
+    tap(() => this.loading.set(false)),
+  ), { initialValue: [] })
 
   formatAuthors(authors: string[]) {
     return Array.isArray(authors) ? authors.join(', ') : '';
